@@ -373,12 +373,14 @@ void ContFramePool::release_frames(unsigned long _first_frame_no)
 
         // Set the Head Of Sequence to free.
         node->set_state(index, FrameState::Free);
+        node->nFreeFrames += 1;
 
         // Start checking the sequence
         index += 1;
         while (node->get_state(index) == FrameState::Used)
         {
             node->set_state(index, FrameState::Free);
+            node->nFreeFrames += 1;
             index++;
         }
 
